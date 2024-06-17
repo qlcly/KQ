@@ -1,0 +1,65 @@
+create table user
+(
+    id BIGINT,
+    name VARCHAR(30),
+    auth INTEGER,
+    userType INTEGER,
+    password VARCHAR(30),
+    primary key (id),
+    foreign key (id) references employee(empId) on update cascade on delete cascade
+
+);
+create table employee(
+                         empId bigint primary key ,
+                         empName varchar(50),
+                         birthday date,
+                         getJobDay date,
+                         gender varchar(10),
+                         deptId bigint,
+                         deptName varchar(50),
+                         auth int default(0)
+);
+
+create table attendance (
+                            attendanceId bigint primary key ,
+                            empId bigint,
+                            clockTime datetime,
+                            foreign key (empId) references employee(empId)
+                                on update cascade on delete cascade
+);
+create table `leave`(
+                        empId bigint,
+                        appId bigint,
+                        empName varchar(50),
+                        empDeptId bigint,
+                        empDeptName varchar(30),
+                        reason varchar(500),
+                        leaveType int,
+                        state int default(1),
+                        startTime date,
+                        endTime date,
+                        index (appId),
+                        primary key (empId, appId),
+                        foreign key (empId) references employee(empId)
+                            on update cascade on delete cascade
+);
+
+create table approval(
+                         id int AUTO_INCREMENT PRIMARY KEY,
+                         empId bigint,
+                         time date,
+                         appId bigint,
+                         comment varchar(70),
+                         approvalType int,
+                         approval tinyint,
+                         foreign key (appId) references `leave`(appId)
+                             on update cascade on delete cascade
+);
+
+create table holidays(
+                         empId bigint primary key ,
+                         yearHoliday int,
+                         privateHoliday int,
+                         sickHoliday int default(5),
+                         foreign key (empId) references employee(empId)
+);

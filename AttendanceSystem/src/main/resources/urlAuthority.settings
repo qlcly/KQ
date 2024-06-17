@@ -1,0 +1,31 @@
+/AttendanceSystem/attendance GET AND >= STAFF = PERSONNEL  //所有级别可查看打卡，人事部可查看所有打卡
+/AttendanceSystem/attendance/id GET AND >= STAFF = PERSONNEL = GENERAL //人事部与普通员工可查看自己的打卡
+/AttendanceSystem/attendance DELETE AND > STAFF = PERSONNEL //经理级别可删除打卡记录，人事部可删除打卡记录
+/AttendanceSystem/attendance POST AND = PERSONNEL //人事部可导入打卡记录
+
+/AttendanceSystem/approval GET AND > STAFF <= GENERAL //经理级别可获得审批，所有人员可获得审批
+/AttendanceSystem/approval/id GET AND >= STAFF <= GENERAL  //所有级别可查看自己的请假审批状态，所有人员可查看自己的请假审批状态
+
+#在部门经理添加审批前，副总经理与总经理无法修改审批；在副总经理修改或添加审批前，总经理无法修改审批
+/AttendanceSystem/approval POST DYNAMIC
+/AttendanceSystem/approval PUT DYNAMIC  //经理级别可修改自己提交的审批
+/AttendanceSystem/approval DELETE DYNAMIC //经理级别可删除自己提交的审批
+
+/AttendanceSystem/holidays GET AND > STAFF <= GENERAL //经理级别可查看所有员工假期信息，所有人员可获得假期信息
+/AttendanceSystem/holidays/id GET AND >= STAFF <= GENERAL //所有人可查看自己的假期信息，所有人员可获得自己的假期信息
+/AttendanceSystem/holidays PUT AND > STAFF = PERSONNEL //经理级别可修改假期信息，人事部可修改假期信息
+/AttendanceSystem/holidays POST AND > STAFF = PERSONNEL //经理级别可添加假期信息，人事部可添加假期信息
+/AttendanceSystem/holidays DELETE AND > STAFF = PERSONNEL //经理级别可删除请假信息，人事部可删除请假信息
+
+/AttendanceSystem/leave GET AND >= STAFF <= GENERAL //经理级别可查看所有请假申请，员工可查看自己请假申请
+/AttendanceSystem/leave/id GET AND > STAFF <= GENERAL //经理级别可查看任意某条的请假申请
+/AttendanceSystem/leave POST AND >= STAFF <= GENERAL // 所有人可添加自己的请假申请
+/AttendanceSystem/leave PUT AND >= STAFF <= GENERAL //所有人可修改自己的请假申请
+/AttendanceSystem/leave DELETE AND >= STAFF <= GENERAL //所有人可删除自己的请假申请
+
+/AttendanceSystem/employee GET AND >= STAFF <= GENERAL //所有人员可查看所有员工信息
+/AttendanceSystem/employee/id GET AND >= STAFF <= GENERAL //所有人员可查看自己的员工信息
+/AttendanceSystem/employee POST AND > STAFF = PERSONNEL //人事部可查看添加的员工信息
+/AttendanceSystem/employee PUT AND >= STAFF <= GENERAL //所有人员可修改自己的员工信息
+/AttendanceSystem/employee DELETE AND > STAFF = PERSONNEL //人事部可删除员工信息
+/AttendanceSystem/employee/report GET AND = PERSONNEL //人事部可导出报表
